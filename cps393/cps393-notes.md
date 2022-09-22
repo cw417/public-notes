@@ -8,6 +8,9 @@
   - [Grep](#grep)
   - [Regex](#regex)
 - [Vim](#vim)
+  - [Movement](#movement)
+  - [Motions](#motions)
+  - [Editing](#editing)
   - [Etc](#etc-2)
 
 ## Linux/Bash
@@ -172,6 +175,8 @@
 - `j` - down
 - `k` - up
 - `l` - right
+- `$` - move to end of line
+- `0` - move to beiginning of line
 - `gg` - to top of file
 - `G` - to bottom of file
 - `ctrl + d` - down one half page
@@ -181,23 +186,22 @@
 ### Motions
 
 - Combine these with other commands to perform combo actions
+- movements also work as motions (ex. see `d` delete command below in Editing)
 - `w` - to end of word
 - `iw` - inner word; include entire word under cursor
-- `$` - to end of line
-- `0` - to beginning of line
 
 ### Editing
 
 - all commands are relative to normal mode
+- `u` - undo; undo last change since save to buffer
+  - note: does not work exactly like a normal word processor
+  - sometimes undoes more than you might want it to
+- `R` - redo
 - `i` - insert; enter insert mode at space *before* cursor
 - `a` - append; enter insert mode at space *after* cursor
 - `d{motion}` - delete according to motion
-  - `dw` - delete from cursor to end of word
-  - `diw` - delete current word that cursor is inside
-  - `d$` - delete from cursor to end of line
-  - `d0` - delete from cursor to beginning of line
-  - `dgg` - delete from cursor to beginning of file
-  - `dG` - delete from cursor to end of file
+  - `dd` - delete current line
+  - see [useful combos](#useful-combos) for more commands
 - `o` - insert new line *below* cursor and enter insert mode
 - `O` - insert new line *above* cursor and enter insert mode
 - `y` - yank; copy highlighted area
@@ -205,8 +209,6 @@
 - `P` - paste *before* cursor
 - `v` - begin highlighting
 - `V` - highlight entire line
-- `V>` - indent line; highlights and then indents
-- `V<` - unindent line
 
 ### Etc-2
 
@@ -216,3 +218,16 @@
   - can do a file search and replace on a word/phrase
   - `:s/{word_to_remove}/{word_to_insert}` will find and replace on a single line
     - use `:%s` to match the entire file
+
+### Useful combos
+
+- `Vy` - copy line
+- `V>` - indent line; highlights and then indents
+- `V<` - unindent line
+- `dd` - delete line
+- `dw` - delete from cursor to end of word
+- `diw` - delete current word that cursor is inside
+- `d$` - delete from cursor to end of line
+- `d0` - delete from cursor to beginning of line
+- `dgg` - delete from cursor to beginning of file
+- `dG` - delete from cursor to end of file
