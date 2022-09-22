@@ -2,12 +2,13 @@
 
 - [Linux/Bash](#linuxbash)
   - [Commands](#commands)
-  - [Etc](#etc)
+  - [Etc](#etc-1)
   - [Globs](#globs)
   - [Bash](#bash)
   - [Grep](#grep)
   - [Regex](#regex)
 - [Vim](#vim)
+  - [Etc](#etc-2)
 
 ## Linux/Bash
 
@@ -65,7 +66,7 @@
 - `tail` - print last 10 lines of a file or output
   - `-n` - print n lines
 
-### Etc
+### Etc-1
 
 - `~` - home directory (ex. `cd ~` will change into home directory)
   - protip: you can also just run `cd` to change into the home directory
@@ -99,7 +100,6 @@
   - `[:upper:]` or `[A-Z]` - uppercase letters
   - `[:lower:]` or `[a-z]` - lowercase letters
 
-
 ### Bash
 
 - `#!` - shebang; goes in first line of file along with what shell to use to execute it
@@ -122,7 +122,7 @@
   ```
 
   - This script will prompt the user for their username, and then attempt to connect to the TMU Moon servers
-  - Could combine the 3rd and 4th lines by doing `read -p "Username: " $username`
+  - Could combine the 3rd and 4th lines by doing `read -p "Username: " username`
     - `-p` - prompt string to prompt for user input
     - `-sp` - secure prompt; do not display user input as they type
 
@@ -161,3 +161,58 @@
 - Regular expressions are used to match patterns
 
 ## Vim
+
+- `:q` -  quit; will not work if file has been edited
+- `:q!` - quit, discarding any changes
+- `:wq` or `:x` - save and quit
+
+### Movement
+
+- `h` - left
+- `j` - down
+- `k` - up
+- `l` - right
+- `gg` - to top of file
+- `G` - to bottom of file
+- `ctrl + d` - down one half page
+- `ctrl + u` - up one half page
+- `:{line_number}` - move to specified line number
+
+### Motions
+
+- Combine these with other commands to perform combo actions
+- `w` - to end of word
+- `iw` - inner word; include entire word under cursor
+- `$` - to end of line
+- `0` - to beginning of line
+
+### Editing
+
+- all commands are relative to normal mode
+- `i` - insert; enter insert mode at space *before* cursor
+- `a` - append; enter insert mode at space *after* cursor
+- `d{motion}` - delete according to motion
+  - `dw` - delete from cursor to end of word
+  - `diw` - delete current word that cursor is inside
+  - `d$` - delete from cursor to end of line
+  - `d0` - delete from cursor to beginning of line
+  - `dgg` - delete from cursor to beginning of file
+  - `dG` - delete from cursor to end of file
+- `o` - insert new line *below* cursor and enter insert mode
+- `O` - insert new line *above* cursor and enter insert mode
+- `y` - yank; copy highlighted area
+- `p` - paste *after* cursor
+- `P` - paste *before* cursor
+- `v` - begin highlighting
+- `V` - highlight entire line
+- `V>` - indent line; highlights and then indents
+- `V<` - unindent line
+
+### Etc-2
+
+- `/{word/phase}` to search for a given word/phrase
+  - use `n` to move forward through the results
+- Find & replace
+  - can do a file search and replace on a word/phrase
+  - `:s/{word_to_remove}/{word_to_insert}` will find and replace on a single line
+    - use `:%s` to match the entire file
