@@ -1,0 +1,163 @@
+# CPS393 - Unix, C, C++
+
+- [Linux/Bash](#linuxbash)
+  - [Commands](#commands)
+  - [Etc](#etc)
+  - [Globs](#globs)
+  - [Bash](#bash)
+  - [Grep](#grep)
+  - [Regex](#regex)
+- [Vim](#vim)
+
+## Linux/Bash
+
+### Commands
+
+- `ls` - lists all files and directories in specified directory
+  - `-a` - (all);  list all files, including hidden ones (those prefixed with `.`, ie. `.vimrc`)
+  - `-l` - (long); long listing of file properties
+    - includes file permissions
+  - `-h` - (human readable); prints file sizes in human readable format
+  - `-t` - sort newest to oldest
+  - `-R` - recursively list all sub-directories and files
+  - `-p` - print following directory names
+- `cd` - change into specified directory
+- `pwd` - print the absolute path of the current working directory
+- `cat {file}` - print specified file contents to terminal
+  - `tac {file}` - print file contents to terminal in *reverse*
+- `more` - print *paged* file contents/output to terminal; can navigate through with spacebar
+- `less` - like more, but has vim movement
+  - protip: `less` is better than `more`
+  - vim movement
+  - type `/{keywords}` to search the output, and `n` to move through the results
+- `cp {src} {dest}` - copies source file to destination
+- `rm {file}` - remove file; will not work on non-empty directories unless `-r` is specified
+- `touch {file}` - create the specified file
+- `mkdir {dir}` - create specified directory
+- `rmdir {dir}` - removes an empty directory
+- `mv {src} {dest}` - move source file to destination location
+  - also used to rename files
+  - ex. `mv hello_world.txt helloWorld.txt` would rename `hello_world.txt` to `helloWorld.txt`
+- `echo "{string}"` - print the specified string to the terminal
+  - protip: can be used to append to a file
+  - ex. `echo "Hello, world!" >> hello.txt` will create a file named `hello.txt` (if it does not already exist) with the contents `Hello, world!`
+    - if the file already exists, it will append instead of overwriting
+    - can use single `>` to overwrite if the file does exist
+- `wc {file}` - print `lines | words | chars` of the specified file
+- `man {command}` - go to man page for specified command
+  - can use `/{keywords}` to search, and `n` to navigate forward through the search results
+  - `q` will quit
+- `man -k {keyword}` - search for commands that include specified keyword
+- `chmod {permissions} {file}` - change file permissions
+  - can be hard to remember the permission format
+  - permission specifiers are:
+    - `u` - user
+    - `g` - group
+    - `o` - other
+    - `a` - all
+  - possible permissions are:
+    - `r` - read; can look at file contents
+    - `w` - write; can edit the file
+    - `x` - can execute the file
+  - ex. `chmod u+x script.sh` will allow the user to execute `script.sh`
+- `head` - print first 10 lines of a file or output
+  - `-n` - print n lines
+- `tail` - print last 10 lines of a file or output
+  - `-n` - print n lines
+
+### Etc
+
+- `~` - home directory (ex. `cd ~` will change into home directory)
+  - protip: you can also just run `cd` to change into the home directory
+- `/` - root directory
+- `.` - current directory
+- `..` - one directory *up* the tree
+- your user home directory is located at `/home/{user_name}/`
+
+### IO
+
+- `stdin` -  standard input; keyboard, pipes, etc...; redirect with `0>`
+- `stdout` - standard output; generally the terminal; redirect with `1>`
+- `stderr` - standard error; outputs error messages; redirect with `2>`
+- `/dev/null` - a black hole to send undesired stuff to
+  - ex. you can redirect `stderr` to `/dev/null` to suppress error message in the terminal
+    - `cat file.txt 2> /dev/null` will run `cat` on the file, but send any error messages to the void
+  - anything sent to here is gone forever
+
+### Globs
+
+- `?` - matches any **single** char
+  - can chain multiple together to match multiple chars
+- `*` - matches any sequence of char(s)
+- `[]` - match one of any listed chars
+  - ex. `ls lab[123].txt` will match `lab1.txt`, `lab2.txt`, and `lab3.txt`
+    - can also do `ls lab[1-3].txt`
+  - can use `!` to specify **not** these chars
+    - ex. `ls lab[!123].txt` will list any matching besides `lab1.txt`, `lab2.txt`, and `lab3.txt`
+  - `[:alnum:]` - alphanumeric
+  - `[:alpha:]` or `[A-Za-z]` - all letters
+  - `[:upper:]` or `[A-Z]` - uppercase letters
+  - `[:lower:]` or `[a-z]` - lowercase letters
+
+
+### Bash
+
+- `#!` - shebang; goes in first line of file along with what shell to use to execute it
+  - ex. `#!/bin/bash` will use bash in the `bin` folder to execute the script
+- `$1 $2 $3` etc... -  first, second, third, etc... arguements
+- `$0` - name of shell script
+- `$#` - number of args passed
+- `$@` - list args as one string
+- `$*` - list args as separate
+- `read {var_name}` - read user input into variable name
+  - access with `${var_name}`
+- example script:
+
+  ```bash
+  #!/bin/bash
+  echo "Connecting to TMU Moon Servers."
+  echo "Username:"
+  read username 
+  ssh $username@moon.scs.ryerson.ca
+  ```
+
+  - This script will prompt the user for their username, and then attempt to connect to the TMU Moon servers
+  - Could combine the 3rd and 4th lines by doing `read -p "Username: " $username`
+    - `-p` - prompt string to prompt for user input
+    - `-sp` - secure prompt; do not display user input as they type
+
+### Grep
+
+- `grep string filename(s)` is command format
+  - can also pipe output into grep
+    - no need to specify filename if this is done
+    - ex. `ls -a | grep ".*rc"` would list all files that start with `.` and end with `rc`
+
+#### Options
+
+- `-i` - case insensitive matching
+- `-v` - print lines not matching
+- `-x` - search string msut match entire line
+- `-E` - use extended regex
+
+#### Syntax
+
+- `\` - escape char; necessary when matching any special char
+- `.` - match any char except `\n`; line `?` in globs
+- `{char}*` - match 0 or more of previous char; **NOT** like with globs
+- `^` - pattern must be at start of line
+- `$` - pattern must be at end of line
+- `[]` - match any char in brackets; works line in glob
+- `[^]` - match any chars **not** in brackets; works line in glob
+- does not match multiple chars automatically
+  - `\{m\}` - match exactly m repetitions of previous char
+  - `\{m,\}` - match at least m repetitions of previous char
+  - `\{m,n\}` - match between m and n repetitions of previous char
+- `\<{char}` - match any line that contains a word beginning with char
+- `{char}\>` - match any line that contains a word ending with char
+
+### Regex
+
+- Regular expressions are used to match patterns
+
+## Vim
