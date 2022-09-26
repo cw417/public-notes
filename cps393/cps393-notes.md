@@ -68,6 +68,13 @@
   - `-n` - print n lines
 - `tail` - print last 10 lines of a file or output
   - `-n` - print n lines
+- `cut`
+  - `-c {#}` to specify columns
+    - ex. `cut -c 1-8`
+  - `-f {#}` to specify fields
+    - `-d "{delim}"` to specify delimiter
+    - ex. `cut -f 1-3 -d ":"`
+- `paste` - basically the same as `cat`?
 
 ### Etc-1
 
@@ -83,6 +90,7 @@
 - `stdin` -  standard input; keyboard, pipes, etc...; redirect with `0>`
 - `stdout` - standard output; generally the terminal; redirect with `1>`
 - `stderr` - standard error; outputs error messages; redirect with `2>`
+- can redirect both stdout and stderr at once with `&>`
 - `/dev/null` - a black hole to send undesired stuff to
   - ex. you can redirect `stderr` to `/dev/null` to suppress error message in the terminal
     - `cat file.txt 2> /dev/null` will run `cat` on the file, but send any error messages to the void
@@ -135,6 +143,10 @@
   - can also pipe output into grep
     - no need to specify filename if this is done
     - ex. `ls -a | grep ".*rc"` would list all files that start with `.` and end with `rc`
+
+#### Grep Tips
+
+- exclude directories: `grep -v ^d`
 
 #### Options
 
