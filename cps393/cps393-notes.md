@@ -74,7 +74,9 @@
   - `-f {#}` to specify fields
     - `-d "{delim}"` to specify delimiter
     - ex. `cut -f 1-3 -d ":"`
-- `paste` - basically the same as `cat`?
+- `paste` - basically the same as `cat`
+  - works more like zip
+  - combines input *columns*
 
 ### Etc-1
 
